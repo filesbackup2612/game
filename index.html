@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Letter</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Petit+Formal+Script&display=swap" rel="stylesheet" />
+    <style>
+      /* Your existing CSS from above */
+      :root {
+        --bg1: #e8f0ff;
+        --bg2: #ffe9f3;
+        --ink: #3e4152;
+        --accent: #ff3d8a;
+        --accent-2: #ff7fb0;
+        --card: #ffffff;
+        --shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+        --radius: 22px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+      }
+
+      body {
+        margin: 0;
+        background: radial-gradient(1200px 800px at 10% -10%,
+            var(--bg1),
+            transparent 70%),
+          radial-gradient(1200px 800px at 110% 110%, var(--bg2), transparent 70%),
+          linear-gradient(180deg, #f7faff, #fdeff6);
+        color: var(--ink);
+        font-family: Poppins, system-ui, -apple-system, Segoe UI, Roboto,
+          Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 24px 18px 100px;
+      }
+
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        display: flex;
+        justify-content: flex-end;
+        padding: 12px 18px;
+      }
+
+      .music-btn {
+        position: fixed;
+        right: 18px;
+        top: 18px;
+        z-index: 120;
+        background: var(--card);
+        border: none;
+        box-shadow: var(--shadow);
+        border-radius: 999px;
+        padding: 10px 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+      }
+
+      .music-btn .tip {
+        font-size: 12px;
+        opacity: 0.8;
+      }
+
+      .music-btn svg {
+        width: 22px;
+        height: 22px;
+      }
+
+      .hero {
+        min-height: 72vh;
+        display: grid;
+        place-items: center;
+        position: relative;
+      }
+
+      .sticker {
+        position: absolute;
+        right: 8%;
+        top: 6%;
+        width: 120px;
+        filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.12));
+        user-select: none;
+      }
+
+      .envelope-wrap {
+        position: relative;
+        width: min(640px, 92vw);
+      }
+
+      .envelope {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        border-radius: 18px;
+        box-shadow: var(--shadow);
+      }
+
+      .envelope .back {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, #ffffff, #eef4ff);
+        border-radius: 18px;
+      }
+
+      .envelope .flap {
+        position: absolute;
+        inset: 0;
+        clip-path: polygon(0 0, 100% 0, 50% 56%);
+        background: #add3ff;
+        transform-origin: 50% 0;
+        transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+
+      .envelope .seal {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -10%);
+        width: 62px;
+        height: 62px;
+        border-radius: 999px;
+        background: radial-gradient(circle at 30% 30%, #ff86b8, var(--accent));
+        display: grid;
+        place-items: center;
+        box-shadow: 0 8px 16px rgba(255, 61, 138, 0.4);
+        cursor: pointer;
+      }
+
+      .envelope .seal:active {
+        transform: translate(-50%, -10%) scale(0.98);
+      }
+
+      .seal svg {
+        width: 30px;
+        height: 30px;
+        fill: #fff;
+      }
+
+      .open .flap {
+        transform: rotateX(160deg);
+      }
+
+      .open .seal {
+        opacity: 0.4;
+        pointer-events: none;
+      }
+
+      .click-hint {
+        position: absolute;
+        left: 50%;
+        bottom: -16px;
+        transform: translateX(-50%);
+        opacity: 0.35;
+        font-size: 14px;
+      }
+
+      .card {
+        background: var(--card);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 24px;
+        margin: 28px 0;
+      }
+
+      .card h2 {
+        font-weight: 600;
+        margin: 0 0 6px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .card .sub {
+        font-size: 30px;
+        /* make font size bigger */
+        font-family: 'Great Vibes', cursive;
+        /* use cursive font if you want */
+        opacity: 1;
+        /* increase opacity if needed */
+        margin-top: 10px;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 16px;
+        border: none;
+        border-radius: 999px;
+        background: var(--accent);
+        color: #fff;
+        font-weight: 600;
+        cursor: pointer;
+        box-shadow: 0 10px 18px rgba(255, 61, 138, 0.35);
+        user-select: none;
+      }
+
+      .btn:active {
+        transform: translateY(1px);
+      }
+
+      .modal {
+        position: fixed;
+        inset: 0;
+        display: none;
+        place-items: center;
+        background: rgba(20, 23, 31, 0.55);
+        backdrop-filter: blur(4px);
+        z-index: 110;
+      }
+
+      .modal.show {
+        display: grid;
+      }
+
+      .letter {
+        width: min(680px, 92vw);
+        background: linear-gradient(180deg, #ffffff, #f4f7ff);
+        padding: 28px 26px;
+        border-radius: 20px;
+        box-shadow: var(--shadow);
+        position: relative;
+      }
+
+      .letter h3 {
+        font-family: "Petit Formal Script", cursive;
+        color: var(--accent);
+        font-size: 40px;
+        margin: 0 0 4px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .letter p {
+        font-family: "Petit Formal Script", serif;
+        line-height: 1.9;
+        font-size: 18px;
+        margin: 10px 0;
+      }
+
+      .close-x {
+        position: absolute;
+        right: 12px;
+        top: 12px;
+        width: 40px;
+        height: 40px;
+        border-radius: 999px;
+        display: grid;
+        place-items: center;
+        background: #f2f4ff;
+        border: none;
+        cursor: pointer;
+      }
+
+      .poem {
+        background: #ffe6f1;
+        border-radius: 18px;
+        padding: 22px;
+        border: 2px dashed #ffb6d2;
+      }
+
+      .poem p {
+        font-family: "Petit Formal Script", serif;
+        font-style: italic;
+        font-size: 18px;
+        margin: 8px 0;
+      }
+
+      .heart {
+        display: inline-block;
+        width: 18px;
+        height: 18px;
+        vertical-align: -3px;
+      }
+
+      .speech {
+        background: #fff;
+        padding: 16px 18px;
+        border-radius: 14px;
+        margin: 16px 0 10px;
+        position: relative;
+        box-shadow: var(--shadow);
+      }
+
+      .speech:after {
+        content: "";
+        position: absolute;
+        left: 26px;
+        bottom: -12px;
+        width: 0;
+        height: 0;
+        border: 12px solid transparent;
+        border-top-color: #fff;
+      }
+
+      .us-img {
+        display: block;
+        width: 100%;
+        border-radius: 18px;
+        box-shadow: var(--shadow);
+      }
+
+      .caption {
+        opacity: 0.8;
+        text-align: center;
+        margin-top: 10px;
+        font-style: italic;
+      }
+
+      .game-wrap {
+        display: grid;
+        place-items: center;
+        gap: 12px;
+      }
+
+      .hud {
+        display: flex;
+        gap: 16px;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .hud .pill {
+        background: #111827;
+        color: #fff;
+        padding: 8px 12px;
+        border-radius: 999px;
+        font-weight: 600;
+        user-select: none;
+      }
+
+      .tap-area {
+        position: relative;
+        width: 340px;
+        height: 480px;
+        border-radius: 16px;
+        box-shadow: var(--shadow);
+        background: linear-gradient(180deg, #fdfbff, #ffeef6);
+        overflow: hidden;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .sprite {
+        position: absolute;
+        width: 48px;
+        height: 48px;
+        user-select: none;
+        cursor: pointer;
+        image-rendering: pixelated;
+        will-change: transform, top, left, opacity;
+        animation: fall var(--spd, 4s) linear forwards;
+      }
+
+      .sprite.heart {
+        filter: drop-shadow(0 6px 8px rgba(255, 79, 143, 0.35));
+        background-image: url('https://png.pngtree.com/png-clipart/20231020/original/pngtree-pink-glitter-heart-outlined-png-image_13383099.png');
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+
+      .sprite.kitty {
+        filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.18));
+        background-image: url('https://image2url.com/images/1755929379235-a4595849-9c71-4233-aaee-0885c2513b31.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+      }
+
+      @keyframes fall {
+        from {
+          top: -64px;
+          transform: translateY(0) rotate(var(--rot, 0deg));
+          opacity: 1;
+        }
+
+        to {
+          top: 520px;
+          transform: translateY(0) rotate(var(--rot, 0deg));
+          opacity: 0.95;
+        }
+      }
+
+      .pop {
+        animation: pop 0.25s ease-out;
+      }
+
+      @keyframes pop {
+        from {
+          transform: scale(1);
+        }
+
+        50% {
+          transform: scale(1.2);
+        }
+
+        to {
+          transform: scale(0.98);
+        }
+      }
+
+      .bonus {
+        position: absolute;
+        transform: translate(-50%, -50%);
+        background: #fff8b3;
+        color: #d63384;
+        font-weight: 700;
+        font-size: 14px;
+        padding: 4px 10px;
+        border-radius: 999px;
+        pointer-events: none;
+        animation: floatUp 1s ease-out forwards;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        z-index: 20;
+        user-select: none;
+      }
+
+      @keyframes floatUp {
+        from {
+          opacity: 1;
+          transform: translate(-50%, -50%) scale(1);
+        }
+
+        to {
+          opacity: 0;
+          transform: translate(-50%, -120%) scale(1.2);
+        }
+      }
+
+      .center {
+        text-align: center;
+      }
+
+      .brand {
+        font-family: "Great Vibes", cursive;
+        color: var(--accent);
+        font-size: 56px;
+        text-align: center;
+        margin: 24px 0 6px;
+        user-select: none;
+      }
+
+      .tag {
+        opacity: 0.7;
+        text-align: center;
+        margin: 0 0 26px;
+        font-style: italic;
+        user-select: none;
+      }
+
+      .muted {
+        opacity: 0.7;
+      }
+
+      .row {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+
+      @media (min-width: 680px) {
+        .row {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+
+      .hidden {
+        display: none !important;
+      }
+
+      .game-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+      }
+
+      .game-modal.hidden {
+        display: none;
+      }
+
+      .game-modal-content {
+        background: #fff;
+        border-radius: 20px;
+        padding: 20px 35px 35px 35px;
+        text-align: center;
+        max-width: 350px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        position: relative;
+        font-family: "Playfair Display", serif;
+      }
+
+      .game-modal-content h2 {
+        color: #e91e63;
+        margin-bottom: 10px;
+        font-family: "Great Vibes", cursive;
+        font-size: 36px;
+      }
+
+      .game-modal-content .note {
+        font-style: italic;
+        color: #555;
+        margin: 15px 0;
+        padding: 10px;
+        border: none;
+        border-radius: 12px;
+        user-select: none;
+      }
+
+      #tryAgainBtn {
+        background: linear-gradient(135deg, #ff3d8a 0%, #a14fff 100%);
+        border: none;
+        color: white;
+        font-size: 18px;
+        padding: 12px 30px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-family: "Great Vibes", cursive;
+        transition: background 0.3s ease;
+        margin-top: 15px;
+        user-select: none;
+      }
+
+      #tryAgainBtn:hover {
+        background: linear-gradient(135deg, #e8327f 0%, #8d43e0 100%);
+      }
+
+      .closeModalBtn {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: #999;
+        user-select: none;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-weight: bold;
+        /* make headings bold */
+        color: var(--accent);
+        /* use your pink accent color */
+        font-family: 'Petit Formal Script', cursive;
+        /* use cursive font loaded from Google Fonts */
+      }
+    </style>
+  </head>
+  <body>
+    <audio id="bgm" loop preload="auto">
+      <source src="game/lovely-flowers-326300.mp3" />
+	 Your browser does not support the audio element.
+    </audio>
+    <!-- Music toggle button -->
+    <button class="music-btn" id="musicBtn" aria-label="Toggle music">
+      <span class="tip">Click to Play music</span>
+      <svg id="noteIcon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 3v10.55A4 4 0 1 1 10 9V5h10V3H12zM6 17a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+      </svg>
+    </button>
+    <div class="container">
+      <h1 class="brand">Hehehehe <span class="muted">,</span>
+      </h1>
+      <p class="tag">Just wanted to share what's in my heart</p>
+      <section class="hero" id="hero">
+        <img class="sticker" src="https://www.gifcen.com/wp-content/uploads/2022/12/hello-kitty-gif.gif" alt="cute sticker" style="margin-top: 10px" />
+        <div class="envelope-wrap">
+          <div class="envelope" id="envelope">
+            <div class="back"></div>
+            <div class="flap"></div>
+            <button class="seal" id="openSeal" aria-label="Open">
+              <svg viewBox="0 0 24 24">
+                <path d="M12 21s-8-4.438-8-10a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 5.562-8 10-8 10z" />
+              </svg>
+            </button>
+          </div>
+          <div class="click-hint">Click to open</div>
+        </div>
+      </section>
+      <div class="row">
+        <div class="card">
+          <h2>
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16v16H4z" />
+              <path d="M22 6l-10 7L2 6" />
+            </svg> Read my Letter <span style="font-size: 20px">📩</span>
+          </h2>
+          <p class="sub">Click to hear my sincere feelings</p>
+          <p>
+            <button class="btn" id="readLetter">Open Letter</button>
+          </p>
+        </div>
+        <div class="card">
+          <h2>
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 21s-8-4.438-8-10a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 5.562-8 10-8 10z" />
+            </svg> Play a Game!
+          </h2>
+          <p class="sub">Catch some hearts to unlock a special message✨</p>
+          <p>
+            <button class="btn" id="playGame">Start Game</button>
+          </p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="poem">
+          <p>I know things haven’t always been perfect, <br /> but We can get through <em>anything</em> </p>
+          <p> You are always on my mind, <br /> And I cherish & support you in all our moments, <br /> So, Let’s enjoy this journey side by side. <svg class="heart" viewBox="0 0 24 24">
+              <path fill="currentColor" d="M12 21s-8-4.438-8-10a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 5.562-8 10-8 10z" />
+            </svg>
+          </p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="speech">“This is us btw”</div>
+        <img class="us-img" src="https://image2url.com/images/1755946320066-18008fb2-b2fd-47ff-9189-ebea87d76e28.png" alt="vibes" />
+        <div class="caption"> Never be sad, Let's be happyyyyyyy.</div>
+      </div>
+      <p class="center muted">Made with 💗 just for you.</p>
+    </div>
+    <!-- LETTER MODAL -->
+    <div class="modal" id="letterModal" aria-hidden="true">
+      <div class="letter" role="dialog" aria-modal="true" aria-labelledby="dear">
+        <button class="close-x" id="closeLetter" aria-label="Close">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 6L6 18M6 6l12 12" />
+          </svg>
+        </button>
+        <h3 id="dear">💗 Chinnu</h3>
+        <p>Naku telusu ippudu neeku antha koncham kastanga anipisthundani</p>
+        <p> Kani mellaga, opikatho unte antha ade saddukuntundi... </p>
+        <p> Naku nee meedha nammakam undi, antha malli normal cheskuntav. Em kangaru padaku. </p>
+        <p style="text-align: right; margin-top: 18px"> Yours, <br />
+          <strong>Bondam</strong>
+        </p>
+      </div>
+    </div>
+    <!-- GAME MODAL -->
+    <div class="modal" id="gameModal" aria-hidden="true">
+      <div class="letter" role="dialog" aria-modal="true" style="padding: 18px 18px 24px">
+        <button class="close-x" id="closeGame" aria-label="Close">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 6L6 18M6 6l12 12" />
+          </svg>
+        </button>
+        <h3 style="margin: 0 0 8px">💗 Catch the Hearts</h3>
+        <div class="game-wrap">
+          <div class="hud">
+            <div class="pill"> Score: <span id="score">0</span>
+            </div>
+            <div class="pill"> Goal: <span id="goal">15</span>
+            </div>
+            <div class="pill"> Time: <span id="time">30</span>s </div>
+          </div>
+          <div id="tapArea" class="tap-area" aria-label="Tap game area"></div>
+        </div>
+      </div>
+    </div>
+    <!-- Game Complete Modal -->
+    <div id="gameCompleteModal" class="game-modal hidden">
+      <div class="game-modal-content">
+        <button class="closeModalBtn" id="closeGameComplete" aria-label="Close modal">✖</button>
+        <h2>Game Complete!</h2>
+        <p id="gameMessage"></p>
+        <div class="note" id="gameNote"></div>
+        <button id="tryAgainBtn" class="btn" style="display: none">Try Again</button>
+      </div>
+    </div>
+    <script>
+      // Music Toggle
+      document.addEventListener('DOMContentLoaded', () => {
+            const bgm = document.getElementById("bgm");
+            const musicBtn = document.getElementById("musicBtn");
+            const noteIcon = document.getElementById("noteIcon");
+            let musicOn = false;
+            musicBtn.addEventListener("click", async () => {
+              try {
+                if (!musicOn) {
+                  const playPromise = bgm.play();
+                  if (playPromise !== undefined) {
+                    await playPromise; // wait for success or error
+                  }
+                  musicOn = true;
+                  musicBtn.querySelector(".tip").textContent = "Music playing";
+                  noteIcon.setAttribute("fill", "currentColor");
+                } else {
+                  bgm.pause();
+                  musicOn = false;
+                  musicBtn.querySelector(".tip").textContent = "Click to Play music";
+                  noteIcon.removeAttribute("fill");
+                }
+              } catch (error) {
+                musicBtn.querySelector(".tip").textContent = "Tap again to allow audio";
+                console.warn("Audio playback blocked:", error);
+              }
+            });
+
+            async function playAudio() {
+              try {
+                await bgm.play();
+                musicOn = true;
+                musicBtn.querySelector(".tip").textContent = "Music playing";
+                noteIcon.setAttribute("fill", "currentColor");
+                musicBtn.disabled = false;
+              } catch (e) {
+                console.log('Audio play blocked, retry on next click');
+                musicBtn.querySelector(".tip").textContent = "Tap again to allow audio";
+                musicBtn.disabled = false; // Make sure button stays enabled
+              }
+            }
+            // Elements
+            const hero = document.getElementById("hero");
+            const openSeal = document.getElementById("openSeal");
+            const envelope = document.getElementById("envelope");
+            const letterModal = document.getElementById("letterModal");
+            const readLetter = document.getElementById("readLetter");
+            const closeLetter = document.getElementById("closeLetter");
+            const gameModal = document.getElementById("gameModal");
+            const playGame = document.getElementById("playGame");
+            const closeGame = document.getElementById("closeGame");
+            const tapArea = document.getElementById("tapArea");
+            const scoreEl = document.getElementById("score");
+            const goalEl = document.getElementById("goal");
+            const timeEl = document.getElementById("time");
+            const tryAgainBtn = document.getElementById("tryAgainBtn");
+            const gameMessage = document.getElementById("gameMessage");
+            const gameNote = document.getElementById("gameNote");
+            // Letter Modal events
+            readLetter.addEventListener("click", () => letterModal.classList.add("show"));
+            closeLetter.addEventListener("click", () => letterModal.classList.remove("show"));
+            letterModal.addEventListener("click", (e) => {
+              if (e.target === letterModal) letterModal.classList.remove("show");
+            });
+            // Game variables
+            const goal = 15;
+            let timeLeft = 30;
+            let score = 0;
+            let running = false;
+            let spawnTimer = null;
+            let timer = null;
+            // Start game helper
+            function openGame() {
+              envelope.classList.add("open");
+              setTimeout(() => {
+                hero.classList.add("hidden");
+              }, 400);
+              gameModal.classList.add("show");
+              startTapGame();
+            }
+            openSeal.addEventListener("click", () => {
+              envelope.classList.add("open");
+              setTimeout(() => {
+                hero.classList.add("hidden");
+              }, 400);
+              letterModal.classList.add("show");
+            });
+            playGame.addEventListener("click", () => {
+              gameModal.classList.add("show");
+              startTapGame();
+            });
+            closeGame.addEventListener("click", () => {
+              stopTapGame();
+              gameModal.classList.remove("show");
+            });
+            gameModal.addEventListener("click", (e) => {
+              if (e.target === gameModal) {
+                stopTapGame();
+                gameModal.classList.remove("show");
+              }
+            });
+	    document.getElementById("closeGameComplete").addEventListener("click", closeGameModal);
+
+            function resetGame() {
+              running = false;
+              score = 0;
+              scoreEl.textContent = score;
+              timeLeft = 30;
+              timeEl.textContent = timeLeft;
+              goalEl.textContent = goal;
+              tapArea.innerHTML = "";
+            }
+
+            function startTapGame() {
+              resetGame();
+              running = true;
+              timer = setInterval(() => {
+                timeLeft--;
+                timeEl.textContent = timeLeft;
+                if (timeLeft <= 0) {
+                  stopTapGame();
+                  showGameModal();
+                }
+              }, 1000);
+              spawnTimer = setInterval(spawnSprite, 700);
+            }
+
+            function stopTapGame() {
+              running = false;
+              clearInterval(timer);
+              timer = null;
+              clearInterval(spawnTimer);
+              spawnTimer = null;
+            }
+
+            function spawnSprite() {
+              if (!running) return;
+              const isKitty = Math.random() < 0.2;
+              const img = document.createElement("div");
+              img.className = `sprite ${isKitty ? "kitty" : "heart"}`;
+              const left = Math.random() * (tapArea.clientWidth - 56) + 4;
+              img.style.left = left + "px";
+              img.style.top = "-64px";
+              img.style.setProperty("--spd", 3 + Math.random() * 2 + "s");
+              img.style.setProperty("--rot",
+                (Math.random() < 0.5 ? "-" : "") + (10 + Math.floor(Math.random() * 25)) + "deg");
+              img.addEventListener("pointerdown",
+                (e) => {
+                  e.preventDefault();
+                  img.classList.add("pop");
+                  // Increase score by 1 for every tap (heart or kitty)
+                  score++;
+                  scoreEl.textContent = score;
+                  console.log(`[DEBUG] Clicked on: ${isKitty ? "Kitty" : "Heart"}, score now: ${score}`);
+                  if (isKitty) {
+                    showBonus(img, "+5 💖");
+                  }
+                  setTimeout(() => img.remove(), 180);
+                  if (score >= goal) {
+                    stopTapGame();
+                    showGameModal();
+                  }
+                }, {
+                  passive: false
+                });
+              img.addEventListener("animationend", () => img.remove());
+              tapArea.appendChild(img);
+            }
+
+            function showBonus(sprite, text) {
+              console.log("[DEBUG] showBonus called with text:", text);
+              const bonus = document.createElement("div");
+              bonus.className = "bonus";
+              bonus.textContent = text;
+              // Ensure bonus positions inside the container boundaries
+              const leftPos = Math.min(Math.max(sprite.offsetLeft + sprite.offsetWidth / 2, 20), tapArea.clientWidth - 20);
+              const topPos = Math.max(sprite.offsetTop - 20, 20);
+              bonus.style.left = leftPos + "px";
+              bonus.style.top = topPos + "px";
+              tapArea.appendChild(bonus);
+              setTimeout(() => {
+                bonus.remove();
+              }, 1000);
+            }
+
+            function showGameModal() {
+              if (score >= goal) {
+                gameMessage.textContent = `You did it! You caught ${score} hearts!`;
+                gameNote.innerHTML = `Thank you for playing! I hope this little game shows how much I care.<br /><br />My heart is yours to catch, always.`;
+
+                tryAgainBtn.style.display = "none";
+              } else {
+                gameMessage.textContent = `You caught ${score} hearts! Try again to reach ${goal} hearts!`;
+                gameNote.innerHTML = "";
+                tryAgainBtn.style.display = "inline-block";
+              }
+              document.getElementById("gameCompleteModal").classList.remove("hidden");
+            }
+
+            function closeGameModal() {
+              // Hide the Game Complete modal first
+              document.getElementById("gameCompleteModal").classList.add("hidden");
+              // Also hide the game modal (the tap game)
+              gameModal.classList.remove("show");
+              stopTapGame(); // stop the game loop if running
+            }
+            tryAgainBtn.onclick = () => {
+              closeGameModal();
+              gameModal.classList.add("show");
+              startTapGame();
+            };
+});
+    </script>
+  </body>
+</html>
